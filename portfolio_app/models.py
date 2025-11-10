@@ -3,27 +3,6 @@ from django.urls import reverse
 
 # Create your models here.
 
-class Portfolio(models.Model):
-    title = models.CharField(max_length=200, blank = False)
-    contact_email = models.CharField(default = "Email", max_length=200, blank = False)
-    is_active = models.BooleanField(default=False)
-    about = models.TextField(blank = True)
-
-    def __str__(self):
-        return self.title
-    def get_absolute_url(self):
-        return reverse('portfolio-detail', args=[str(self.id)])
-
-class Projects(models.Model):
-    title = models.CharField(max_length=200, blank = False)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.title
-        
-    def get_absolute_url(self):
-        return reverse('projects-detail', args=[str(self.id)])
-
 # student model
 class Student(models.Model):
 
@@ -40,7 +19,6 @@ class Student(models.Model):
     name = models.CharField(max_length=200, blank = False)
     email = models.CharField("Email", max_length=200, blank = False)
     major = models.CharField(max_length=200, choices=MAJOR, blank = False)
-    portfolio = models.OneToOneField(Portfolio, on_delete = models.CASCADE, null = True, unique= True)
     #Define default String to return the name for representing the Model object."
     def __str__(self):
         return self.name
@@ -51,6 +29,26 @@ class Student(models.Model):
     def get_absolute_url(self):
         return reverse('student-detail', args=[str(self.id)])
 
-class ProjectInPortfolio(models.Model):
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+class Portfolio(models.Model):
+    title = models.CharField(max_length=200, blank = False)
+    contact_email = models.CharField(default = "Email", max_length=200, blank = False)
+    is_active = models.BooleanField(default=False)
+    about = models.TextField(blank = True)
+    student = models.OneToOneField(Student, on_delete = models.CASCADE, null = True, unique= True)
+
+
+    def __str__(self):
+        return self.title
+    def get_absolute_url(self):
+        return reverse('portfolio-detail', args=[str(self.id)])
+
+class Project(models.Model):
+    title = models.CharField(max_length=200, blank = False)
+    description = models.TextField()
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+        
+    def get_absolute_url(self):
+        return reverse('projects-detail', args=[str(self.id)])
