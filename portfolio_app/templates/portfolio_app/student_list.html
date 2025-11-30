@@ -1,0 +1,15 @@
+<!-- inherit from base.html-->
+{% extends "portfolio_app/base_template.html" %}
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<h1>Computer Science Student </h1>
+
+<ul class="list-group">
+    {% for student in students %}
+        <li class="list-group-item mb-2 border">
+            <h3>Name: <a href = "{% url 'student_detail' student.pk %}">{{ student.name }}</a></h3>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

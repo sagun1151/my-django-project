@@ -1,0 +1,17 @@
+<!-- inherit from base.html-->
+{% extends "portfolio_app/base_template.html" %}
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<ul class="list-group">
+        <li class="list-group-item">
+            <h3>Name: {{ student.name }}</h3>
+            <p><strong>Email:</strong> {{ student.email }}</p>
+            <P><strong>Major:</strong> {{ student.major }} - {{student.get_major_display}}</P>
+            <div>
+                <p><strong>Portfolio: {{ student.portfolio.title }}
+                <a href="{% url 'portfolio_update' student.portfolio.pk %}" class="btn btn-warning btn-sm">Edit Portfolio</a>
+            </div>
+        </li>
+</ul>
+{% endblock %}

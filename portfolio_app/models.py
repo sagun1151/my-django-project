@@ -42,7 +42,7 @@ class Student(models.Model):
     name = models.CharField(max_length=200, blank = False)
     email = models.CharField("Email", max_length=200, blank = False)
     major = models.CharField(max_length=200, choices=MAJOR, blank = False)
-    Portfolio = models.OneToOneField(Portfolio, on_delete = models.CASCADE, null = True, unique= True)
+    portfolio = models.OneToOneField(Portfolio, on_delete = models.CASCADE, null = True, unique= True)
     #Define default String to return the name for representing the Model object."
     def __str__(self):
         return self.name

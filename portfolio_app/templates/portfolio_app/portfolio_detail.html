@@ -1,0 +1,39 @@
+<!-- inherit from base.html-->
+{% extends "portfolio_app/base_template.html" %}
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<h2>Portfolio Title: {{portfolio_detail.title}} </h2>
+<ul class="list-group">
+        <li class="list-group-item">
+            <p><strong>Email:</strong> {{ portfolio_detail.contact_email }}</p>
+            {% if pportfolio_detail.is_active %}
+                <p><strong>Status: Active</strong></p>
+            {% else %}
+                <p><strong>Status: Inactive</strong></p>
+            {% endif %}
+            <p><strong>Description:</strong> {{ portfolio_detail.about }}</p>
+
+            <div class="d-flex  align-items-center mb-2">
+                <h3 class='me-2'>Projects</h3>
+                <a href="{% url 'project_create' portfolio_detail.pk %}" class="btn btn-success me-2">Add New Project</a>
+            </div>
+
+            <ul class="list-group">
+            {% for project in portfolio_detail.project_set.all %}
+                    <li class="list-group-item mb-2 border">
+                        <p><strong>{{ project.title }}</strong><p>
+
+                        <a href="{% url 'project_detail' project.pk %}" class="btn btn-info btn-sm mb-2">View Project</a>   
+                        <a href="{% url 'project_update' project.pk %}" class="btn btn-primary btn-sm mb-2">Edit Project</a>
+                        <a href="{% url 'project_delete' project.pk %}" class="btn btn-danger btn-sm mb-2">Delete Project</a>
+    
+                        <p>{{ project.description }}<p>
+                    </li>
+                {% empty %}
+                    <li>No projects for this portfolio.</li>
+                {% endfor %}
+            </ul>
+        </li>
+</ul>
+{% endblock %}

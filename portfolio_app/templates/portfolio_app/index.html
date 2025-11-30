@@ -8,11 +8,10 @@
 <h2>List of Student with Active Portfolios</h2>
 <ul class="list-group">
     {% for student in student_active_portfolios %}
-        <li class="list-group-item">
+        <li class="list-group-item mb-2 border">
             <h3>Name: {{ student.name }}</h3>
-            <p>Email: {{ student.email }}</p>
             <p><strong>Portfolio: {{ student.portfolio.title }}
-            </strong></p>
+            </strong><a href="{% url 'portfolio_detail' student.portfolio.pk %}" class = "btn btn-primary btn-sm"> View</a></p>
         </li>
     {% empty %}
         <li class="list-group-item">No active portfolios found.</li>

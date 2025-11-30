@@ -1,0 +1,36 @@
+{% extends "portfolio_app/base_template.html" %}
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<h1>Computer Science Student Portfolios</h1>
+
+<h2>All Active Portfolios</h2>
+<ul class="list-group">
+    {% for portfolio in portfolios %}
+        <li class="list-group-item mb-2 border">
+            <h3>Name:
+                <a href="{% url 'portfolio_detail' portfolio.pk %}">{{ portfolio.title }}</a>
+            </h3>
+            <p><strong>Email:</strong> {{ portfolio.contact_email }}</p>
+            {% if portfolio.is_active %}
+                <p><strong>Status: Active</strong></p>
+            {% else %}
+                <p><strong>Status: Inactive</strong></p>
+            {% endif %}
+            <p><strong>Description:</strong> {{ portfolio.about }}</p>
+            <ul class="list-group">
+            {% for project in portfolio.project_set.all %}
+                    <li class="list-group-item mb-2 border">
+                        <p><strong>{{ project.title }}</strong><p>
+                        <p>{{ project.description }}<p>
+                    </li>
+                {% empty %}
+                    <li>No projects for this portfolio.</li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No active portfolios found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
